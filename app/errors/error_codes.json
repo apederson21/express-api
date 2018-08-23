@@ -1,0 +1,22 @@
+{
+    "INVALID": {
+        "EMAIL": {
+            "code": "INVALID_EMAIL",
+            "message": "Bad input: email."
+        },
+        "PASSWORD": {
+            "code": "INVALID_PASSWORD",
+            "message": "Bad input: password. Passwords must be 6 or more characters and contain at least one digit."
+        }
+    },
+    "MISSING": {
+        "EMAIL": {
+            "code": "MISSING_DATA",
+            "message": "Missing data: email."
+        },
+        "PASSWORD": {
+            "code": "MISSING_DATA",
+            "message": "Missing data: password."
+        }
+    }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "express-api",
+  "version": "1.0.0",
+  "description": "Express Api with Helmet, that talks to DynamoDB",
+  "engines": {
+    "node": "10.7.0",
+    "npm": "6.1.0"
+  },
+  "main": "./app/server.js",
+  "scripts": {
+    "dev": "$(npm bin)/nodemon ./app/server.js",
+    "start": "node ./app/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apederson21/express-api.git"
+  },
+  "author": "apederson21",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apederson21/express-api/issues"
+  },
+  "homepage": "https://github.com/apederson21/express-api#readme",
+  "dependencies": {
+    "aws-sdk": "2.296.0",
+    "body-parser": "1.18.3",
+    "express": "4.16.3",
+    "helmet": "3.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.3"
+  }
+}
