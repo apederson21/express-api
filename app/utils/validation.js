@@ -37,7 +37,6 @@ const areInputsValid = ((inputs, data) => {
 const isValidEmail = ((email = '') => {    
     // W3C recommended regex
     let regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
     return email.match(regex);
 });
 

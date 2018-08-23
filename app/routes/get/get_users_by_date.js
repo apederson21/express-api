@@ -5,33 +5,31 @@ const   crypto = require('../../utils/crypto'),
         utils = require('../../utils/utils'),
         validation = require('../../utils/validation');
 
-/**
- * add user to database
- */
 module.exports = (app) => {
-    app.post('/add-user', (req, res) => {
+    app.get('/get-user-by-email', (req, res) => {
         let keysToValidate = [
             {
                 key: 'email',
                 required: true
-            },
-            {
-                key: 'password',
-                required: true
             }
         ];
-        
-        let valResult = validation.areInputsValid(keysToValidate, req.body);
+
+        let valResult = validation.areInputsValid(keysToValidate, req.query);
 
         if (utils.get(valResult, ['error', 'code'])) {
             return res.status(utils.get(valResult, ['error', 'code'])).send(valResult);
         }
 
-        // TODO: check if user exists before adding
-
-        addUser(req.body.email, req.body.password)
-            .then(() => {
-                return res.status(200).send({});
+        getUser(req.query.email)
+            .then((data) => {
+                let count = utils.get(data, ['Count']);
+                if (!count || count === 0) {
+                    return res.status(400).send(errorBuilder.buildErrorObject(400, [{
+                        code: 'INVALID_EMAIL',
+                        message: 'User not found'
+                    }]));
+                }
+                return res.status(200).send(data);
             })
             .catch((err) => {
                 return res.status(500).send(errorBuilder.buildErrorObject(500, [{
@@ -41,7 +39,7 @@ module.exports = (app) => {
             });
     });
 
-    let addUser = (email, password) => {
+    let getUser = (email) => {
         return new Promise((resolve, reject) => {
             const AWS = require('aws-sdk');
 
@@ -50,27 +48,27 @@ module.exports = (app) => {
                 endpoint: 'https://dynamodb.us-west-2.amazonaws.com'
             });
 
-            const   date = new Date(),
-                    docClient = new AWS.DynamoDB.DocumentClient(),
+            const   docClient = new AWS.DynamoDB.DocumentClient(),
                     table = 'users';
 
+            
             var params = {
-                TableName: table,
-                Item:{
-                    email: crypto.encrypt(email),
-                    password: crypto.encrypt(password),
-                    dates : {
-                        created: `${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`,
-                        updated: `${date.getMonth()}-${date.getDate()}-${date.getFullYear()}`,
-                    }
+                TableName : table,
+                ProjectionExpression: 'dates',
+                KeyConditionExpression: '#email = :email',
+                ExpressionAttributeNames:{
+                    '#email': 'email'
+                },
+                ExpressionAttributeValues: {
+                    ':email': crypto.encrypt(email)
                 }
             };
-
-            docClient.put(params, (err, data) => {
+            
+            docClient.query(params, (err, data) => {
                 if (err) {
                     reject(JSON.stringify(err, null, 2));
                 }
-                resolve();
+                resolve(data);
             });
         });
     }

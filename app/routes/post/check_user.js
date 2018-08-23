@@ -6,7 +6,7 @@ const   crypto = require('../../utils/crypto'),
         validation = require('../../utils/validation');
 
 /**
- * add user to database
+ * check if user is in database
  */
 module.exports = (app) => {
     app.post('/check-user', (req, res) => {
@@ -44,11 +44,11 @@ module.exports = (app) => {
 
     let getUser = (email) => {
         return new Promise((resolve, reject) => {
-            const AWS = require("aws-sdk");
+            const AWS = require('aws-sdk');
 
             AWS.config.update({
-                region: "us-west-2",
-                endpoint: "https://dynamodb.us-west-2.amazonaws.com"
+                region: 'us-west-2',
+                endpoint: 'https://dynamodb.us-west-2.amazonaws.com'
             });
 
             const   docClient = new AWS.DynamoDB.DocumentClient(),

@@ -23,4 +23,5 @@
 #### http://localhost:3000/check-user
 - POST request: The endpoint expects an email address and will return the updated and created date for the record
 
-#### TBD - GET Sample
+#### http://localhost:3000/get-user-by-email?email=
+- GET request: The endpoint expects an email in the query parameter and will return the updated and created date for the record
