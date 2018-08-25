@@ -66,6 +66,7 @@ module.exports = (app) => {
             
             docClient.query(params, (err, data) => {
                 if (err) {
+                    console.log(err);
                     reject(JSON.stringify(err, null, 2));
                 }
                 resolve(data);

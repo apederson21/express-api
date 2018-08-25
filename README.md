@@ -12,16 +12,20 @@
 - When calling an endpoint that connects to AWS, the <a href="https://github.com/aws/aws-sdk-js">aws-sdk</a> is used
 - Node crypto is used to encrypt the email address and password before it is stored in DynamoDB
 
+### HTTPS Localhost
+- The app is configured to run in HTTPS, using a localhost cert that lives in the root of the project. To generate a cert run the bash script `./scripts/generateCert.sh`.
+- If you test the API in Postman, ensure "SSL certificate verification" is turned off.
+
 ### DynamoDB Config
 - Setup your AWS account and create a new DynamoDB table called `users`. Make `email` the key and add columns for `dates` and `password`
 - Ensure your AWS access key and secret have read and write permissions to DynamoDB
 
 ### Testing the API
-#### http://localhost:3000/add-user
+#### https://localhost:3000/add-user
 - POST request: Try an empty body. Try only an email or password. The endpoint expects an email address and password, and once passed successfully, will add a row to your DynamoDB
 
-#### http://localhost:3000/check-user
+#### https://localhost:3000/check-user
 - POST request: The endpoint expects an email address and will return the updated and created date for the record
 
-#### http://localhost:3000/get-user-by-email?email=
+#### https://localhost:3000/get-user-by-email?email=
 - GET request: The endpoint expects an email in the query parameter and will return the updated and created date for the record
